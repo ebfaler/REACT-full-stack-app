@@ -2,6 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+
+// testing that local host can retreiev courses from host 5000
+fetch("http://localhost:5000/api/courses")
+.then(res => res.json())
+.then((resData) => {
+console.log(resData);
+})
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +24,6 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
         </a>
       </header>
     </div>
