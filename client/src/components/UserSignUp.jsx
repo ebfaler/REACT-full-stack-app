@@ -28,7 +28,7 @@ function UserSignUp() {
         </form>
         <p>
           Already have a user account? Click here to{" "}
-          <a href="sign-in.html">sign in</a>!
+          <Link to="sign-in.html">sign in</Link>!
         </p>
       </div>
     </main>

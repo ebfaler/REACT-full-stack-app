@@ -62,7 +62,7 @@ function CourseDetail() {
               <p>{coursesData.estimatedTime}</p>
 
               <h3 className="course--detail--title">Materials Needed</h3>
-
+              {/* added reactmarkdown top match mockup styling */}
               <ReactMarkdown className="course--detail--list">
                 {coursesData.materialsNeeded}
               </ReactMarkdown>
