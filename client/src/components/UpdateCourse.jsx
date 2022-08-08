@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function UpdateCourse() {
+  //testing onClick action
+  const sayHello = (e) => {
+    e.preventDefault();
+    console.log("say hello");
+  };
+
   return (
     <main>
       <div className="wrap">
@@ -9,7 +15,7 @@ function UpdateCourse() {
         <form>
           <div className="main--flex">
             <div>
-              <label for="courseTitle">Course Title</label>
+              <label htmlFor="courseTitle">Course Title</label>
               <input
                 id="courseTitle"
                 name="courseTitle"
@@ -19,13 +25,13 @@ function UpdateCourse() {
 
               <p>By Joe Smith</p>
 
-              <label for="courseDescription">Course Description</label>
+              <label htmlFor="courseDescription">Course Description</label>
               <textarea id="courseDescription" name="courseDescription">
                 High-end furniture projects are great to dream about.
               </textarea>
             </div>
             <div>
-              <label for="estimatedTime">Estimated Time</label>
+              <label htmlFor="estimatedTime">Estimated Time</label>
               <input
                 id="estimatedTime"
                 name="estimatedTime"
@@ -33,7 +39,7 @@ function UpdateCourse() {
                 value="14 hours"
               />
 
-              <label for="materialsNeeded">Materials Needed</label>
+              <label htmlFor="materialsNeeded">Materials Needed</label>
               <textarea id="materialsNeeded" name="materialsNeeded">
                 * 1/2 x 3/4 inch parting strip&#13;&#13;* 1 x 2 common
                 pine&#13;&#13;* 1 x 4 common pine&#13;&#13;* 1 x 10 common
@@ -49,7 +55,8 @@ function UpdateCourse() {
           </button>
           <button
             className="button button-secondary"
-            onclick="event.preventDefault(); location.href='index.html';"
+            // onClick="event.preventDefault(); location.href='index.html';"
+            onClick={sayHello}
           >
             Cancel
           </button>

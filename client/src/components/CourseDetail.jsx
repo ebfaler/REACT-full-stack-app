@@ -23,18 +23,20 @@ function CourseDetail() {
       });
   }, []);
 
+  // TO DO: create a function in the CourseDetail component that will delete
+  // the course and redirects the user back to the home page when the delete button is clicked.
+
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to="#">
-            {" "}
-            Update Course{" "}
+          <Link className="button" to={`/courses/${id}/update`}>
+            Update Course
           </Link>
-          <Link className="button" to="#">
+          <Link className="button" to={`/`}>
             Delete Course
           </Link>
-          <Link className="button button-secondary" to="#">
+          <Link className="button button-secondary" to={`/`}>
             Return to List
           </Link>
         </div>
