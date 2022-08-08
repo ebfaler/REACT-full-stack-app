@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 //Creating Context using the Context Api which is used to set global state
 //setting context to an empty object at first

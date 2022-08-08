@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function UserSignIn() {
@@ -7,6 +7,27 @@ function UserSignIn() {
     e.preventDefault();
     console.log("say hello");
   };
+
+  //so we can set the focus on the email input when the page first loads
+  //error ref to set the focus on the errors for a screen reader to read
+  const emailRef = useRef();
+  const errorRef = useRef();
+
+  //setting state for user inputs
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // setting state for the error we might get back when we try to authenticate
+  const [errMsg, setErrMsg] = useState("");
+
+  //setting focus on first inout when componenet loads
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
+  //clears any error message if the user changes any of their inputs
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
 
   return (
     <main>
