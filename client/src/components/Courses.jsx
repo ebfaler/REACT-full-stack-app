@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Courses() {
+  //coursesData state is set by the function setCoursesData
+  const [coursesData, setCoursesData] = useState([]);
+
+  // The useEffect Hook instructs React to do something after render, it's called when the component first renders
+  // and after each subsequent re-render or update.
+  useEffect(() => {
+    fetch("/api/courses")
+      .then((res) => res.json())
+      .then((resData) => {
+        console.log("useEffect called and courses rendered");
+        // console.log(resData);
+        setCoursesData(resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <main>
       <div className="wrap main--grid">
-        <a className="course--module course--link" href="course-detail.html">
-          <h2 className="course--label">Course</h2>
-          <h3 className="course--title">Build a Basic Bookcase</h3>
-        </a>
-        <a className="course--module course--link" href="course-detail.html">
-          <h2 className="course--label">Course</h2>
-          <h3 className="course--title">Learn How to Program</h3>
-        </a>
-        <a className="course--module course--link" href="course-detail.html">
-          <h2 className="course--label">Course</h2>
-          <h3 className="course--title">Learn How to Test Programs</h3>
-        </a>
+        {coursesData.map((data) => (
+          <Link
+            to={`/courses/${data.id}`}
+            key={data.id}
+            className="course--module course--link"
+          >
+            <h2 className="course--label">Course</h2>
+            <h3 className="course--title">{data.title} </h3>
+          </Link>
+        ))}
+
         <a
           className="course--module course--add--module"
           href="create-course.html"
