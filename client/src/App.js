@@ -14,6 +14,7 @@ import UserSignUp from "./components/UserSignUp";
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetail />} />

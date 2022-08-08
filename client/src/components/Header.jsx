@@ -7,15 +7,15 @@ function Header() {
     <header>
       <div className="wrap header--flex">
         <h1 className="header--logo">
-          <Link href="index.html">Courses</Link>
+          <Link to="index.html">Courses</Link>
         </h1>
         <nav>
           <ul className="header--signedout">
             <li>
-              <Link href="sign-up.html">Sign Up</Link>
+              <Link to="sign-up.html">Sign Up</Link>
             </li>
             <li>
-              <Link href="sign-in.html">Sign In</Link>
+              <Link to="sign-in.html">Sign In</Link>
             </li>
           </ul>
         </nav>
