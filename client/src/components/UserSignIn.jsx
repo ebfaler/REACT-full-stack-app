@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //importing context
-import Context from "./Context/Context";
+import Context from "./Context/AppContext";
 
 function UserSignIn() {
   //here I am using the context i gave created
@@ -20,6 +20,9 @@ function UserSignIn() {
 
   // setting state for the error we might get back when we try to authenticate
   const [errMsg, setErrMsg] = useState("");
+
+  //allows us to change location
+  let navigate = useNavigate();
 
   //setting focus on first input when componenet loads
   useEffect(() => {
@@ -41,8 +44,8 @@ function UserSignIn() {
     // linking to api
     actions.signIn(emailAddress, password).then((response) => {
       if (response !== null) {
-        // useNavigate("/");
         console.log("sign in successful!");
+        navigate("/");
       } else {
         console.log("sign in unsuccessful!");
       }

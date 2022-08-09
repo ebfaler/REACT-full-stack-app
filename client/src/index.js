@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 //importing context provider
-import { ContextProvider } from "./components/Context/Context";
+import { ContextProvider } from "./components/Context/AppContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

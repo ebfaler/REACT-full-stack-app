@@ -8,6 +8,10 @@ const Context = createContext({});
 //creating a provider which will provide the context to my app
 // children refers to the children within the data provider, which the data will become available to
 export const ContextProvider = ({ children }) => {
+  //state for courses
+
+  //state for course details
+
   //state for signed in user
   const [auth, setAuth] = useState(null);
 
@@ -18,7 +22,7 @@ export const ContextProvider = ({ children }) => {
   const [password, setPassword] = useState("");
 
   //*** MAIN FUNCTION FOR API CALLS - here i am creating an api method to manage api requests ***//
-
+  //these are default values
   function api(
     path,
     method = "GET",
@@ -41,6 +45,7 @@ export const ContextProvider = ({ children }) => {
 
     if (requiresAuth) {
       const encryptedCredentials = Buffer.from(
+        //buffer is looking for the properties username and password
         `${credentials.username}:${credentials.password}`
       ).toString("base64");
       options.headers["Authorization"] = `Basic ${encryptedCredentials}`;
