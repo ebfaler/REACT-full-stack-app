@@ -3,17 +3,20 @@ import { Buffer } from "buffer";
 
 //Creating Context using the Context Api which is used to set global state
 //setting context to an empty object at first
-const Context = createContext({});
+export const Context = createContext({});
 
 //creating a provider which will provide the context to my app
 // children refers to the children within the data provider, which the data will become available to
+
 export const ContextProvider = ({ children }) => {
-  //state for courses
+  //state for coursesData is set by the function setCoursesData
+  const [courses, setCoursesData] = useState([]);
 
   //state for course details
+  const [course, setCourseDetails] = useState([]);
 
   //state for signed in user
-  const [auth, setAuth] = useState(null);
+  const [authUser, setAuth] = useState(null);
 
   //username state
   const [emailAddress, setEmail] = useState("");
@@ -52,11 +55,45 @@ export const ContextProvider = ({ children }) => {
     }
 
     const results = fetch(url, options);
-
     return results;
   }
 
   //* COURSE API REQUESTS *//
+
+  // function to GET courses from api
+  async function handleFetchCourses() {
+    const response = await api("/courses");
+
+    // if successful...
+    if (response.status === 200) {
+      response
+        .json() /* parse response to json */
+        .then((data) =>
+          setCoursesData(data)
+        ); /* set the courses state to the json response */
+      return courses; /* returns the courses array */
+    }
+    // if unauthorized...
+    else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
+
+  // function to GET course details from a single course
+  async function handleFetchCourseDetail(id) {
+    const response = await api(`/courses/${id}`);
+
+    if (response.status === 200) {
+      response.json().then((data) => setCourseDetails(data));
+      return course;
+    } else if (response.status === 404) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
 
   // function to create (POST) a new course
   async function handleCreateNewCourse(courseBody) {
@@ -142,8 +179,13 @@ export const ContextProvider = ({ children }) => {
     //value is the data we are passing for the context
     <Context.Provider
       value={{
-        auth,
+        authUser,
+        courses,
+        course,
+
         actions: {
+          getCourses: handleFetchCourses,
+          course: handleFetchCourseDetail,
           createCourse: handleCreateNewCourse,
           updateCourse: handleUpdateCourse,
           deleteCourse: handleDeleteCourse,

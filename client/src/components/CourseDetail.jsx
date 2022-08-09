@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
+import { Context } from "./Context/AppContext";
+
 function CourseDetail() {
-  const [coursesData, setCoursesData] = useState([]);
+  const { course } = useContext(Context);
+  const { actions } = useContext(Context);
+  const { authUser } = useContext(Context);
 
   //gets the id from the URL
   const { id } = useParams();
@@ -11,16 +15,10 @@ function CourseDetail() {
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
   useEffect(() => {
-    fetch(`/api/courses/${id}`)
-      .then((res) => res.json())
-      .then((resData) => {
-        console.log("useEffect called and course details rendered");
-        console.log(resData);
-        setCoursesData(resData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const displayDetails = async () => {
+      await actions.course(id);
+    };
+    displayDetails();
   }, []);
 
   // TO DO: create a function in the CourseDetail component that will delete
@@ -49,10 +47,10 @@ function CourseDetail() {
           <div className="main--flex">
             <div>
               <h3 className="course--detail--title">Course</h3>
-              <h4 className="course--name">{coursesData.title}</h4>
-              {coursesData.User && (
+              <h4 className="course--name">{course.title}</h4>
+              {course.User && (
                 <p>
-                  By {coursesData.User.firstName} {coursesData.User.lastName}
+                  By {course.User.firstName} {course.User.lastName}
                 </p>
               )}
 
@@ -61,12 +59,12 @@ function CourseDetail() {
 
             <div>
               <h3 className="course--detail--title">Estimated Time</h3>
-              <p>{coursesData.estimatedTime}</p>
+              <p>{course.estimatedTime}</p>
 
               <h3 className="course--detail--title">Materials Needed</h3>
               {/* added reactmarkdown top match mockup styling */}
               <ReactMarkdown className="course--detail--list">
-                {coursesData.materialsNeeded}
+                {course.materialsNeeded}
               </ReactMarkdown>
             </div>
           </div>

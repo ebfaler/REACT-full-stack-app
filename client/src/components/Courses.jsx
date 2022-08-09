@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { Context } from "./Context/AppContext";
+
 function Courses() {
-  //coursesData state is set by the function setCoursesData
-  const [coursesData, setCoursesData] = useState([]);
+  const { courses } = useContext(Context);
+  const { actions } = useContext(Context);
 
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
   useEffect(() => {
-    fetch("/api/courses")
-      .then((res) => res.json())
-      .then((resData) => {
-        console.log("useEffect called and courses rendered");
-        // console.log(resData);
-        setCoursesData(resData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const displayCourses = async () => {
+      await actions.getCourses();
+    };
+    displayCourses();
   }, []);
 
   return (
     <main>
       <div className="wrap main--grid">
-        {coursesData.map((data) => (
+        {courses.map((data) => (
           <Link
             to={`/courses/${data.id}`}
             key={data.id}
