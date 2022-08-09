@@ -1,12 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
+import AuthContext from "./Context/AuthProvider";
+
 function UserSignIn() {
-  //   //testing onClick action
-  //   const sayHello = (e) => {
-  //     e.preventDefault();
-  //     console.log("say hello");
-  //   };
+  //here I am using the context i gave created
+  //if we successfully authenticate when we log in, we will set our new auth state and store it in the global context
+  const { setAuth } = useContext(AuthContext);
 
   //so we can set the focus on the email input when the page first loads
   //error ref to set the focus on the errors for a screen reader to read
@@ -16,10 +16,11 @@ function UserSignIn() {
   //setting state for user inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   // setting state for the error we might get back when we try to authenticate
   const [errMsg, setErrMsg] = useState("");
 
-  //setting focus on first inout when componenet loads
+  //setting focus on first input when componenet loads
   useEffect(() => {
     emailRef.current.focus();
   }, []);
@@ -29,11 +30,12 @@ function UserSignIn() {
     setErrMsg("");
   }, [email, password]);
 
-  //fucntion to handle form submission
+  ///****Function to handle form submission****///
   const handleSubmit = async (e) => {
     console.log("form submitted");
     //preventing default behaviour of the form which would reload the page
     e.preventDefault();
+    //here i will link to api
   };
 
   return (

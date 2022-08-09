@@ -11,24 +11,18 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
 import UserSignUp from "./components/UserSignUp";
 
-//importing context provider
-import { UserDataProvider } from "./components/Context/UserDataContext";
-
 function App() {
   return (
     <BrowserRouter>
-      {/* adding context data provider to wrap around all components */}
-      <UserDataProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Courses />} />
-          <Route path="/courses/:id" element={<CourseDetail />} />
-          <Route path="/courses/create" element={<CreateCourse />} />
-          <Route path="/courses/:id/update" element={<UpdateCourse />} />
-          <Route path="/signin" element={<UserSignIn />} />
-          <Route path="/signout" element={<UserSignOut />} />
-        </Routes>
-      </UserDataProvider>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Courses />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/courses/create" element={<CreateCourse />} />
+        <Route path="/courses/:id/update" element={<UpdateCourse />} />
+        <Route path="/signin" element={<UserSignIn />} />
+        <Route path="/signout" element={<UserSignOut />} />
+      </Routes>
     </BrowserRouter>
   );
 }

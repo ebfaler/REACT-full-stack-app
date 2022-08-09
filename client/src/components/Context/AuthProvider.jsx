@@ -1,27 +1,24 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //Creating Context using the Context Api which is used to set global state
 //setting context to an empty object at first
-const UserDataContext = createContext({});
+const AuthContext = createContext({});
 
 //creating a provider which will provide the context to my app
 // children refers to the children within the data provider, which the data will become available to
-export const UserDataProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
+  const [auth, setAuth] = useState({});
+
   return (
-    <UserDataContext.Provider
-      value={
-        {
-          //this is where i will provide context value
-        }
-      }
-    >
+    //value is the data we are passing for the context
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
-    </UserDataContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export default UserDataContext;
+export default AuthContext;
 
 //This is where I will set up user authentication
 // - create a signIn() method
