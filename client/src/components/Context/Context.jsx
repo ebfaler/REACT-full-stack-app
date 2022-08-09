@@ -26,7 +26,7 @@ export const ContextProvider = ({ children }) => {
     requiresAuth = false,
     credentials = null
   ) {
-    const url = "http://localhost:5000/api" + path;
+    const url = "/api" + path;
 
     const options = {
       method,
@@ -97,6 +97,16 @@ export const ContextProvider = ({ children }) => {
   //* USER API REQUESTS  *//
 
   // function to create(POST) a new user
+  async function handleSignUp(userBody) {
+    const response = await api("/users", "POST", userBody);
+
+    if (response.status === 201) {
+      return true;
+    }
+    return response.json();
+  }
+
+  //function to sign in user will be called in UserSignIn
   async function handleSignIn(emailAddress, password) {
     const response = await api("/users", "GET", null, true, {
       emailAddress,
@@ -116,15 +126,7 @@ export const ContextProvider = ({ children }) => {
     }
   }
 
-  async function handleSignUp(userBody) {
-    const response = await api("/users", "POST", userBody);
-
-    if (response.status === 201) {
-      return true;
-    }
-    return response.json();
-  }
-
+  //function to sign out user
   function handleSignOut() {
     setAuth(null);
     setEmail("");
