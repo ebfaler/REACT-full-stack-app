@@ -5,16 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 //importing context provider
-import { AuthProvider } from "./components/Context/AuthProvider";
+import { ContextProvider } from "./components/Context/Context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     {/* adding context data provider to wrap around all components in App */}
 
-    <AuthProvider>
+    <ContextProvider>
       <App />
-    </AuthProvider>
+    </ContextProvider>
   </React.StrictMode>
 );
 

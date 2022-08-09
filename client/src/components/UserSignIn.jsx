@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import AuthContext from "./Context/AuthProvider";
+//importing context
+import Context from "./Context/Context";
 
 function UserSignIn() {
   //here I am using the context i gave created
   //if we successfully authenticate when we log in, we will set our new auth state and store it in the global context
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(Context);
 
   //so we can set the focus on the email input when the page first loads
   //error ref to set the focus on the errors for a screen reader to read
@@ -14,7 +15,7 @@ function UserSignIn() {
   const errorRef = useRef();
 
   //setting state for user inputs
-  const [email, setEmail] = useState("");
+  const [emailAddress, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // setting state for the error we might get back when we try to authenticate
@@ -28,7 +29,7 @@ function UserSignIn() {
   //clears any error message if the user changes any of their inputs
   useEffect(() => {
     setErrMsg("");
-  }, [email, password]);
+  }, [emailAddress, password]);
 
   ///****Function to handle form submission****///
   const handleSubmit = async (e) => {
@@ -62,7 +63,7 @@ function UserSignIn() {
             autoComplete="off"
             // tying on change to the email state
             onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            value={emailAddress}
             required
           />
           <label htmlFor="password">Password</label>
