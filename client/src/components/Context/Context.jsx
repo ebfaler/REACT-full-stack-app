@@ -9,7 +9,7 @@ const Context = createContext({});
 // children refers to the children within the data provider, which the data will become available to
 export const ContextProvider = ({ children }) => {
   //state for signed in user
-  const [auth, setAuth] = useState({});
+  const [auth, setAuth] = useState(null);
 
   //username state
   const [emailAddress, setEmail] = useState("");
@@ -107,14 +107,14 @@ export const ContextProvider = ({ children }) => {
   }
 
   //function to sign in user will be called in UserSignIn
-  async function handleSignIn(emailAddress, password) {
+  async function handleSignIn(username, password) {
     const response = await api("/users", "GET", null, true, {
-      emailAddress,
+      username,
       password,
     });
 
     if (response.status === 200) {
-      setEmail(emailAddress);
+      setEmail(username);
       setPassword(password);
       return response
         .json()
@@ -138,7 +138,6 @@ export const ContextProvider = ({ children }) => {
     <Context.Provider
       value={{
         auth,
-        setAuth,
         actions: {
           createCourse: handleCreateNewCourse,
           updateCourse: handleUpdateCourse,
