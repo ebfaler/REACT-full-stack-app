@@ -8,7 +8,7 @@ function CreateCourse() {
 
   //importing variables from Context
   const { actions } = useContext(Context);
-  const { user } = useContext(Context);
+  const authenticatedUser = useContext(Context);
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function CreateCourse() {
       description,
       estimatedTime,
       materialsNeeded,
-      userId: user.userId
+      userId: authenticatedUser.userId
     }
 
     // linking to api and creating course via createCourse action
@@ -80,7 +80,7 @@ function CreateCourse() {
 
               />
 
-              {/* <p>{user.firstName}</p> */}
+              {/* <p>{authenticatedUser.firstName}</p> */}
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea

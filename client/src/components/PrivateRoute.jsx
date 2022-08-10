@@ -10,10 +10,10 @@ import Context from './Context/AppContext';
 
 const PrivateRoute = () => {
 
-    const { user } = useContext(Context);
+    const { authenticatedUser } = useContext(Context);
 
     return (
-        user ?
+        authenticatedUser ?
             <Outlet /> :
             <Navigate to={'/signin'} />
     );

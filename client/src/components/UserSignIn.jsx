@@ -7,7 +7,7 @@ function UserSignIn() {
   //here I am using the context i gave created
   //if we successfully authenticate when we log in, we will set our new auth state and store it in the global context
   const { actions } = useContext(Context);
-  console.log(actions);
+  // console.log(actions);
 
   //so we can set the focus on the email input when the page first loads
   //error ref to set the focus on the errors for a screen reader to read
@@ -94,7 +94,7 @@ function UserSignIn() {
             Sign In
           </button>
 
-         <Link to= "/"> <button className="button button-secondary">Cancel</button></Link>
+          <Link to="/"> <button className="button button-secondary">Cancel</button></Link>
         </form>
         <p>
           Don't have a user account? Click here to{" "}

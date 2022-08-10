@@ -17,7 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [course, setCourseDetails] = useState([]);
 
   //state for signed in user
-  const [user, setUser] = useState(null);
+  const [authenticatedUser, setUser] = useState(null);
 
   //username state
   const [emailAddress, setEmail] = useState("");
@@ -182,7 +182,7 @@ export const ContextProvider = ({ children }) => {
     //value is the data we are passing for the context
     <Context.Provider
       value={{
-        user,
+        authenticatedUser,
         courses,
         course,
 
@@ -201,6 +201,7 @@ export const ContextProvider = ({ children }) => {
       {children}
     </Context.Provider>
   );
+
 };
 
 export default Context;

@@ -1,14 +1,14 @@
 import React, { useEffect, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import Forbidden from './Errors/Forbidden'
+
 
 import Context from "./Context/AppContext";
 
 function CourseDetail() {
   const { course } = useContext(Context);
   const { actions } = useContext(Context);
-  const { user } = useContext(Context);
+  const { authenticatedUser } = useContext(Context);
 
   //gets the id from the URL
   const { id } = useParams();
@@ -41,21 +41,26 @@ function CourseDetail() {
 
   };
 
-
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
 
+          {authenticatedUser ? (
+            <React.Fragment>
+              <Link className="button" to={`/courses/${id}/update`}>
+                Update Course
+              </Link>
+              <Link className="button" to={`/`} onClick={handleDeleteCourse}>
+                Delete Course
+              </Link>
+            </React.Fragment>
+          )
+            : (
+              <React.Fragment></React.Fragment>
+            )
 
-          <Link className="button" to={`/courses/${id}/update`}>
-            Update Course
-          </Link>
-          <Link className="button" to={`/`} onClick={handleDeleteCourse}>
-            Delete Course
-          </Link>
-
-
+          }
 
           <Link className="button button-secondary" to={`/`}>
             Return to List
