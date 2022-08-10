@@ -71,7 +71,7 @@ export const ContextProvider = ({ children }) => {
         .then((data) =>
           setCoursesData(data)
         ); /* set the courses state to the json response */
-      return courses; /* returns the courses array */
+      return courses; //returns the courses arrray, this will be made available to context
     }
     // if unauthorized...
     else if (response.status === 401) {
@@ -87,7 +87,7 @@ export const ContextProvider = ({ children }) => {
 
     if (response.status === 200) {
       response.json().then((data) => setCourseDetails(data));
-      return course;
+      return course; //this will be made available to context
     } else if (response.status === 404) {
       return null;
     } else {
@@ -185,7 +185,7 @@ export const ContextProvider = ({ children }) => {
 
         actions: {
           getCourses: handleFetchCourses,
-          course: handleFetchCourseDetail,
+          courseDetail: handleFetchCourseDetail,
           createCourse: handleCreateNewCourse,
           updateCourse: handleUpdateCourse,
           deleteCourse: handleDeleteCourse,

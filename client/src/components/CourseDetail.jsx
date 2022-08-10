@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import Forbidden from './Errors/Forbidden'
 
 import { Context } from "./Context/AppContext";
 
@@ -11,18 +12,41 @@ function CourseDetail() {
 
   //gets the id from the URL
   const { id } = useParams();
+  const navigate = useNavigate()
 
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
   useEffect(() => {
     const displayDetails = async () => {
-      await actions.course(id);
+      await actions.courseDetail(id);
     };
     displayDetails();
   }, []);
 
   // TO DO: create a function in the CourseDetail component that will delete
   // the course and redirects the user back to the home page when the delete button is clicked.
+
+  // const handleDeleteCourse = ()=> {
+  
+  //   actions.deleteCourse(course.id)
+  //   console.log("course deleted");
+  // };
+  
+  const handleDeleteCourse = ()=> {
+  
+    actions.deleteCourse(course.id).then(res => {
+      if (res) {
+        navigate("/");
+        console.log("course deleted");
+      }
+      else {
+        navigate("/forbidden");
+        console.log("course not deleted");
+      }
+    })
+ 
+  };
+  
 
   return (
     <main>
@@ -31,9 +55,11 @@ function CourseDetail() {
           <Link className="button" to={`/courses/${id}/update`}>
             Update Course
           </Link>
-          <Link className="button" to={`/`}>
+          <Link className="button" to={`/`} onClick = {handleDeleteCourse}>
             Delete Course
           </Link>
+
+
           <Link className="button button-secondary" to={`/`}>
             Return to List
           </Link>
@@ -48,9 +74,9 @@ function CourseDetail() {
             <div>
               <h3 className="course--detail--title">Course</h3>
               <h4 className="course--name">{course.title}</h4>
-              {course.User && (
+              {course.authUser && (
                 <p>
-                  By {course.User.firstName} {course.User.lastName}
+                  By {course.authUser.firstName} {course.authUser.lastName}
                 </p>
               )}
 
