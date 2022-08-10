@@ -45,7 +45,7 @@ function CourseDetail() {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-
+          {/* need to set up so that user's ID matches that of the user who owns the course. */}
           {authenticatedUser ? (
             <React.Fragment>
               <Link className="button" to={`/courses/${id}/update`}>
