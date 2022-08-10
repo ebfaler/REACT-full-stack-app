@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { Context } from "./Context/AppContext";
+import Context from "./Context/AppContext";
 
 function Courses() {
   const { courses } = useContext(Context);
@@ -30,9 +30,9 @@ function Courses() {
           </Link>
         ))}
 
-        <a
+        <Link
           className="course--module course--add--module"
-          href="create-course.html"
+          to="/courses/create"
         >
           <span className="course--add--title">
             <svg
@@ -47,7 +47,7 @@ function Courses() {
             </svg>
             New Course
           </span>
-        </a>
+        </Link>
       </div>
     </main>
   );

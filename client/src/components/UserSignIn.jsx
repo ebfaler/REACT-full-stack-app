@@ -94,7 +94,7 @@ function UserSignIn() {
             Sign In
           </button>
 
-          <button className="button button-secondary">Cancel</button>
+         <Link to= "/"> <button className="button button-secondary">Cancel</button></Link>
         </form>
         <p>
           Don't have a user account? Click here to{" "}

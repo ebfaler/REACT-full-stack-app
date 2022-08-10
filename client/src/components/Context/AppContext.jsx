@@ -3,7 +3,8 @@ import { Buffer } from "buffer";
 
 //Creating Context using the Context Api which is used to set global state
 //setting context to an empty object at first
-export const Context = createContext({});
+//I will import Context into other components using "useContext(Context)"
+const Context = createContext({});
 
 //creating a provider which will provide the context to my app
 // children refers to the children within the data provider, which the data will become available to
@@ -16,7 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [course, setCourseDetails] = useState([]);
 
   //state for signed in user
-  const [authUser, setAuth] = useState(null);
+  const [user, setUser] = useState(null);
 
   //username state
   const [emailAddress, setEmail] = useState("");
@@ -96,6 +97,8 @@ export const ContextProvider = ({ children }) => {
   }
 
   // function to create (POST) a new course
+  // credential required ar eusername and password
+
   async function handleCreateNewCourse(courseBody) {
     const response = await api("/courses", "POST", courseBody, true, {
       username: emailAddress,
@@ -160,7 +163,7 @@ export const ContextProvider = ({ children }) => {
       setPassword(password);
       return response
         .json()
-        .then((data) => setAuth(data)); /* set user state to response */
+        .then((data) => setUser(data)); /* set user state to response */
     } else if (response.status === 401) {
       return null;
     } else {
@@ -170,7 +173,7 @@ export const ContextProvider = ({ children }) => {
 
   //function to sign out user
   function handleSignOut() {
-    setAuth(null);
+    setUser(null);
     setEmail("");
     setPassword("");
   }
@@ -179,7 +182,7 @@ export const ContextProvider = ({ children }) => {
     //value is the data we are passing for the context
     <Context.Provider
       value={{
-        authUser,
+        user,
         courses,
         course,
 

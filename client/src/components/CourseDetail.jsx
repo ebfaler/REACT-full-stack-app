@@ -3,12 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Forbidden from './Errors/Forbidden'
 
-import { Context } from "./Context/AppContext";
+import Context from "./Context/AppContext";
 
 function CourseDetail() {
   const { course } = useContext(Context);
   const { actions } = useContext(Context);
-  const { authUser } = useContext(Context);
+  const { user } = useContext(Context);
 
   //gets the id from the URL
   const { id } = useParams();
@@ -26,14 +26,8 @@ function CourseDetail() {
   // TO DO: create a function in the CourseDetail component that will delete
   // the course and redirects the user back to the home page when the delete button is clicked.
 
-  // const handleDeleteCourse = ()=> {
-  
-  //   actions.deleteCourse(course.id)
-  //   console.log("course deleted");
-  // };
-  
-  const handleDeleteCourse = ()=> {
-  
+  const handleDeleteCourse = () => {
+
     actions.deleteCourse(course.id).then(res => {
       if (res) {
         navigate("/");
@@ -44,20 +38,23 @@ function CourseDetail() {
         console.log("course not deleted");
       }
     })
- 
+
   };
-  
+
 
   return (
     <main>
       <div className="actions--bar">
         <div className="wrap">
+
+
           <Link className="button" to={`/courses/${id}/update`}>
             Update Course
           </Link>
-          <Link className="button" to={`/`} onClick = {handleDeleteCourse}>
+          <Link className="button" to={`/`} onClick={handleDeleteCourse}>
             Delete Course
           </Link>
+
 
 
           <Link className="button button-secondary" to={`/`}>
@@ -74,9 +71,9 @@ function CourseDetail() {
             <div>
               <h3 className="course--detail--title">Course</h3>
               <h4 className="course--name">{course.title}</h4>
-              {course.authUser && (
+              {course.user && (
                 <p>
-                  By {course.authUser.firstName} {course.authUser.lastName}
+                  By {course.user.firstName} {course.user.lastName}
                 </p>
               )}
 
