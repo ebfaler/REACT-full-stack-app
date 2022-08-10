@@ -116,6 +116,7 @@ export const ContextProvider = ({ children }) => {
 
   // function to update(PUT) an existing course
   async function handleUpdateCourse(id, courseBody) {
+
     const response = await api(`/courses/${id}`, "PUT", courseBody, true, {
       username: emailAddress,
       password: password,
@@ -166,7 +167,14 @@ export const ContextProvider = ({ children }) => {
 
       return response
         .json()
-        .then((data) => setUser(data)); /* set user state to response */
+        .then((data) => {
+          setUser(data);
+          Cookies.set('authenticatedUser', JSON.stringify(data));
+          Cookies.set('password', password);
+        }); /* set user state to response */
+
+      //Set cookie. First argument specifies the name of the cookie, second is the value to store
+      // Cookies.set('authenticatedUser', JSON.stringify(response));
     }
 
     else if (response.status === 401) {
