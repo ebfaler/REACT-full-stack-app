@@ -8,18 +8,17 @@ function CreateCourse() {
 
   //importing variables from Context
   const { actions } = useContext(Context);
-  const authenticatedUser = useContext(Context);
+  const { authenticatedUser } = useContext(Context);
 
   const navigate = useNavigate();
 
   //setting state for the form 
 
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [estimatedTime, setEstimatedTime] = useState();
-  const [materialsNeeded, setMaterialsNeeded] = useState();
-  // const [errors, setErrors] = useState({});
+  const [estimatedTime, setEstimatedTime] = useState('');
+  const [materialsNeeded, setMaterialsNeeded] = useState('');
+  const [errors, setErrors] = useState({});
 
   ///****Function to handle form submission and create a course ****///
 
@@ -40,16 +39,17 @@ function CreateCourse() {
     actions.createCourse(courseBody
 
     ).then((response) => {
-      if (response !== null) {
+      if (response.errors) {
+        console.log("course creation unsuccessful!");
+        setErrors(response.errors)
+
+      } else {
+
         console.log("course created successfully!");
         navigate("/");
-      } else {
-        console.log("course creation unsuccessful!");
       }
     });
   };
-
-
 
   return (
     <main>
@@ -57,15 +57,20 @@ function CreateCourse() {
         <h2>Create Course</h2>
 
 
+        {errors ? (
+          <React.Fragment>
+            <div className="validation--errors">
+              <h3>Validation Errors</h3>
+              <ul>
+                <li>Please provide a value for "Title"</li>
+                <li>Please provide a value for "Description"</li>
+              </ul>
+            </div>
+          </React.Fragment>
+        ) : <React.Fragment>
 
-        <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-            <li>Please provide a value for "Title"</li>
-            <li>Please provide a value for "Description"</li>
-          </ul>
-        </div>
-
+        </React.Fragment>
+        }
 
 
         <form>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Context from "./Context/AppContext";
 
 function Courses() {
+
   const { courses } = useContext(Context);
   const { actions } = useContext(Context);
 

@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
 import { Buffer } from "buffer";
+// using js-cookie to keep track of the suthentication user data
+import Cookies from 'js-cookie';
 
 //Creating Context using the Context Api which is used to set global state
 //setting context to an empty object at first
@@ -161,10 +163,13 @@ export const ContextProvider = ({ children }) => {
     if (response.status === 200) {
       setEmail(username);
       setPassword(password);
+
       return response
         .json()
         .then((data) => setUser(data)); /* set user state to response */
-    } else if (response.status === 401) {
+    }
+
+    else if (response.status === 401) {
       return null;
     } else {
       throw new Error();
@@ -176,6 +181,7 @@ export const ContextProvider = ({ children }) => {
     setUser(null);
     setEmail("");
     setPassword("");
+    Cookies.remove();
   }
 
   return (
