@@ -19,13 +19,17 @@ export const ContextProvider = ({ children }) => {
   const [course, setCourseDetails] = useState([]);
 
   //state for signed in user
-  const [authenticatedUser, setUser] = useState(null);
+  const [authenticatedUser, setUser] = useState(JSON.parse(Cookies.get('authenticatedUser') || null));
 
-  //username state
-  const [emailAddress, setEmail] = useState("");
+  // //username state
+  // const [emailAddress, setEmail] = useState("");
 
-  //password state
-  const [password, setPassword] = useState("");
+  // //password state
+  // const [password, setPassword] = useState("");
+
+  //cookies state
+  //Set the initial state of the Provider to the value stored in the 'authenticatedUser' cookie or null. Retrieve the value of the cookie using Cookies.getJSON(), which takes the cookie name ('authenticatedUser') as a parameter:
+
 
   //*** MAIN FUNCTION FOR API CALLS - here i am creating an api method to manage api requests ***//
   //these are default values
@@ -102,9 +106,12 @@ export const ContextProvider = ({ children }) => {
   // credential required ar eusername and password
 
   async function handleCreateNewCourse(courseBody) {
+    if (!authenticatedUser) {
+      return false;
+    }
     const response = await api("/courses", "POST", courseBody, true, {
-      username: emailAddress,
-      password: password,
+      username: authenticatedUser.emailAddress,
+      password: authenticatedUser.password,
     });
 
     // if created successfully...
@@ -116,10 +123,12 @@ export const ContextProvider = ({ children }) => {
 
   // function to update(PUT) an existing course
   async function handleUpdateCourse(id, courseBody) {
-
+    if (!authenticatedUser) {
+      return false;
+    }
     const response = await api(`/courses/${id}`, "PUT", courseBody, true, {
-      username: emailAddress,
-      password: password,
+      username: authenticatedUser.emailAddress,
+      password: authenticatedUser.password,
     });
 
     // if update is successfull...
@@ -131,15 +140,19 @@ export const ContextProvider = ({ children }) => {
 
   // function to delete an existing course
   async function handleDeleteCourse(id) {
+    if (!authenticatedUser) {
+      return false;
+    }
     const response = await api(`/courses/${id}`, "DELETE", null, true, {
-      username: emailAddress,
-      password: password,
+      username: authenticatedUser.emailAddress,
+      password: authenticatedUser.password,
     });
 
     // if delete is successfull...
     if (response.status === 204) {
       return true;
     }
+    return false;
   }
 
   //* USER API REQUESTS  *//
@@ -162,19 +175,24 @@ export const ContextProvider = ({ children }) => {
     });
 
     if (response.status === 200) {
-      setEmail(username);
-      setPassword(password);
+
+      // setEmail(username);
+      // setPassword(password);
 
       return response
         .json()
         .then((data) => {
-          setUser(data);
-          Cookies.set('authenticatedUser', JSON.stringify(data));
-          Cookies.set('password', password);
-        }); /* set user state to response */
+          //setting the password on data to the user entered password. 
+          data.password = password;
+          setUser(data); /* set user state to response */
 
-      //Set cookie. First argument specifies the name of the cookie, second is the value to store
-      // Cookies.set('authenticatedUser', JSON.stringify(response));
+          //Set cookie. First argument specifies the name of the cookie, second is the value to store
+          //In Chrome DevTools, for instance, cookies are displayed in the "Application" tab, under "Storage > Cookies".
+          Cookies.set('authenticatedUser', JSON.stringify(data));
+          console.log(data);
+        });
+
+
     }
 
     else if (response.status === 401) {
@@ -187,12 +205,11 @@ export const ContextProvider = ({ children }) => {
   //function to sign out user
   function handleSignOut() {
     setUser(null);
-    setEmail("");
-    setPassword("");
     Cookies.remove();
   }
 
   return (
+
     //value is the data we are passing for the context
     <Context.Provider
       value={{
