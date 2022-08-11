@@ -205,7 +205,7 @@ export const ContextProvider = ({ children }) => {
   //function to sign out user
   function handleSignOut() {
     setUser(null);
-    Cookies.remove();
+    Cookies.remove('authenticatedUser');
   }
 
   return (

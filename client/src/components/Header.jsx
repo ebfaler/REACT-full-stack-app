@@ -7,6 +7,7 @@ import Context from './Context/AppContext';
 
 function Header() {
   const { authenticatedUser } = useContext(Context);
+
   return (
     //the following code is for when the user is NOT signed in.Need to show different headers depending on if user is signed in or not
     <header>

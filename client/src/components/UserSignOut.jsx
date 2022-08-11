@@ -10,6 +10,7 @@ function UserSignOut() {
   useEffect(() => {
     //runs the sign out function set in context
     context.actions.signOut()
+    console.log("sign out function ran");
   }, [])
 
   return (
