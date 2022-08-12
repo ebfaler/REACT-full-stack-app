@@ -80,7 +80,7 @@ function CreateCourse() {
               <input id="courseTitle"
                 name="courseTitle"
                 type="text"
-                value=""
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
 
               />
@@ -91,6 +91,7 @@ function CreateCourse() {
               <textarea
                 id="courseDescription"
                 name="courseDescription"
+                value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
@@ -100,7 +101,7 @@ function CreateCourse() {
                 id="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                value=""
+                value={description}
                 onChange={(e) => setEstimatedTime(e.target.value)}
               />
 
@@ -108,6 +109,7 @@ function CreateCourse() {
               <textarea
                 id="materialsNeeded"
                 name="materialsNeeded"
+                value={materialsNeeded}
                 onChange={(e) => setMaterialsNeeded(e.target.value)}>
 
               </textarea>
