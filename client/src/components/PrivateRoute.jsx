@@ -11,7 +11,7 @@ import Context from './Context/AppContext';
 const PrivateRoute = () => {
 
     const { authenticatedUser } = useContext(Context);
-
+    //if user is authenticated, go to create/update page. if not, redirect to sign-in.
     return (
         authenticatedUser ?
             <Outlet /> :

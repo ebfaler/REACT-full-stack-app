@@ -42,6 +42,8 @@ function CreateCourse() {
       if (response.errors) {
         console.log("course creation unsuccessful!");
         setErrors(response.errors)
+        console.log(response.errors);
+        return errors;
 
       } else {
 
@@ -85,13 +87,14 @@ function CreateCourse() {
 
               />
 
-              {/* <p>{authenticatedUser.firstName}</p> */}
+              <p> By {""} {authenticatedUser.firstName} {""} {authenticatedUser.lastName} </p>
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea
                 id="courseDescription"
                 name="courseDescription"
                 value={description}
+                type="text"
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
@@ -101,7 +104,7 @@ function CreateCourse() {
                 id="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                value={description}
+                value={estimatedTime}
                 onChange={(e) => setEstimatedTime(e.target.value)}
               />
 
@@ -110,6 +113,7 @@ function CreateCourse() {
                 id="materialsNeeded"
                 name="materialsNeeded"
                 value={materialsNeeded}
+                type="text"
                 onChange={(e) => setMaterialsNeeded(e.target.value)}>
 
               </textarea>

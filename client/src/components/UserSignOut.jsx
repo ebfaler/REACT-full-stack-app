@@ -7,6 +7,10 @@ import Context from './Context/AppContext'
 function UserSignOut() {
   const context = useContext(Context);
 
+  //Developers refer to these types of actions as "side effects" and React now warns that you shouldn't perform them during rendering.
+
+  //This state update should happen after the UserSignOut component renders. React now provides a straightforward way to do that with the useEffect Hook.
+
   useEffect(() => {
     //runs the sign out function set in context
     context.actions.signOut()
@@ -20,3 +24,4 @@ function UserSignOut() {
 }
 
 export default UserSignOut;
+
