@@ -55,6 +55,8 @@ function CreateCourse() {
     });
   };
 
+  /* Displaying Errors */
+
   function ErrorsDisplay({ errors }) {
     let errorsDisplay = null;
 
@@ -81,7 +83,7 @@ function CreateCourse() {
         <h2>Create Course</h2>
 
         <ErrorsDisplay errors={errors} />
-        <form errors={errors}>
+        <form>
           <div className="main--flex">
             <div>
               <label htmlFor="courseTitle">Course Title</label>

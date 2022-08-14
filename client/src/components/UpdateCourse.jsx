@@ -1,17 +1,99 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Context from "./Context/AppContext";
+
 
 function UpdateCourse() {
+
+  //navigation
+
+  const navigate = useNavigate();
+
+  //importing variables from Context
+  const { actions } = useContext(Context);
+  const { authenticatedUser } = useContext(Context);
+
+
+  //setting state for the form 
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [estimatedTime, setEstimatedTime] = useState('');
+  const [materialsNeeded, setMaterialsNeeded] = useState('');
+  const [errors, setErrors] = useState({});
+
+
+
   //testing onClick action
   const sayHello = (e) => {
     e.preventDefault();
     console.log("say hello");
   };
 
+  ///****Function to handle form submission and update a course ****///
+
+  const handleSubmit = async (e) => {
+    //preventing default behaviour of the form which would reload the page
+    e.preventDefault();
+
+
+    //these are the variables in api data.json which will be used in the updateCourse method found in context
+    const courseBody = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+    }
+
+    const id = {
+      userId: authenticatedUser.id
+    }
+
+    // linking to api and creating course via updateCourse action
+    actions.updateCourse(id, courseBody
+
+    ).then((response) => {
+      if (response.errors) {
+        console.log("course update unsuccessful!");
+        setErrors(response.errors)
+        console.log(response.errors);
+        console.log(courseBody);
+        console.log(authenticatedUser);
+
+      } else {
+
+        console.log("course successfully updated!");
+        navigate("/");
+      }
+    });
+  };
+
+  /* Displaying Errors */
+
+  function ErrorsDisplay({ errors }) {
+    let errorsDisplay = null;
+
+    if (errors.length) {
+      errorsDisplay = (
+        <div>
+          <h2 className="validation--errors--label">Validation errors</h2>
+          <div className="validation-errors">
+            <ul>
+              {errors.map((error, i) => <li key={i}>{error}</li>)}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    return errorsDisplay;
+  }
+
   return (
     <main>
       <div className="wrap">
         <h2>Update Course</h2>
+        <ErrorsDisplay errors={errors} />
         <form>
           <div className="main--flex">
             <div>
@@ -20,14 +102,16 @@ function UpdateCourse() {
                 id="courseTitle"
                 name="courseTitle"
                 type="text"
-                value="Build a Basic Bookcase"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
 
-              <p>By Joe Smith</p>
+              <p> By {""} {authenticatedUser.firstName} {""} {authenticatedUser.lastName} </p>
+
 
               <label htmlFor="courseDescription">Course Description</label>
-              <textarea id="courseDescription" name="courseDescription">
-                High-end furniture projects are great to dream about.
+              <textarea id="courseDescription" name="courseDescription" value={description}
+                onChange={(e) => setDescription(e.target.value)}>
               </textarea>
             </div>
             <div>
@@ -36,30 +120,27 @@ function UpdateCourse() {
                 id="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                value="14 hours"
+                value={estimatedTime}
+                onChange={(e) => setEstimatedTime(e.target.value)}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded">
-                * 1/2 x 3/4 inch parting strip&#13;&#13;* 1 x 2 common
-                pine&#13;&#13;* 1 x 4 common pine&#13;&#13;* 1 x 10 common
-                pine&#13;&#13;* 1/4 inch thick lauan plywood&#13;&#13;*
-                Finishing Nails&#13;&#13;* Sandpaper&#13;&#13;* Wood
-                Glue&#13;&#13;* Wood Filler&#13;&#13;* Minwax Oil Based
-                Polyurethane
+              <textarea id="materialsNeeded" name="materialsNeeded" value={materialsNeeded}
+                onChange={(e) => setMaterialsNeeded(e.target.value)}>
+
               </textarea>
             </div>
           </div>
-          <button className="button" type="submit">
+          <button className="button" type="submit" onClick={handleSubmit}>
             Update Course
           </button>
-          <button
-            className="button button-secondary"
-            // onClick="event.preventDefault(); location.href='index.html';"
-            onClick={sayHello}
-          >
-            Cancel
-          </button>
+
+          <Link to='/'>
+            <button
+            >
+              Cancel
+            </button>
+          </Link>
         </form>
       </div>
     </main>
