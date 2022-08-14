@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Context from "./Context/AppContext";
 
 
@@ -10,7 +10,7 @@ function UpdateCourse() {
   const navigate = useNavigate();
 
   //importing variables from Context
-  const { actions } = useContext(Context);
+  const { actions, course } = useContext(Context);
   const { authenticatedUser } = useContext(Context);
 
 
@@ -23,12 +23,19 @@ function UpdateCourse() {
   const [errors, setErrors] = useState({});
 
 
+  //useParams to get the id of the course from the url
+  const { id } = useParams();
+
+
+  //state for course details
+  // const [course, setCourseDetails] = useState([]);
+
 
   //testing onClick action
-  const sayHello = (e) => {
-    e.preventDefault();
-    console.log("say hello");
-  };
+  // const sayHello = (e) => {
+  //   e.preventDefault();
+  //   console.log("say hello");
+  // };
 
   ///****Function to handle form submission and update a course ****///
 
@@ -43,13 +50,11 @@ function UpdateCourse() {
       description,
       estimatedTime,
       materialsNeeded,
-    }
-
-    const id = {
       userId: authenticatedUser.id
     }
 
     // linking to api and creating course via updateCourse action
+    // takes a paramater id which is the id of the course
     actions.updateCourse(id, courseBody
 
     ).then((response) => {
