@@ -26,13 +26,14 @@ function CreateCourse() {
     //preventing default behaviour of the form which would reload the page
     e.preventDefault();
 
+
     //these are the variables in api data.json which will be used in the createCourse method found in context
     const courseBody = {
       title,
       description,
       estimatedTime,
       materialsNeeded,
-      userId: authenticatedUser.userId
+      userId: authenticatedUser.id
     }
 
     // linking to api and creating course via createCourse action
@@ -43,7 +44,8 @@ function CreateCourse() {
         console.log("course creation unsuccessful!");
         setErrors(response.errors)
         console.log(response.errors);
-        return errors;
+        console.log(courseBody);
+        console.log(authenticatedUser);
 
       } else {
 
@@ -53,29 +55,33 @@ function CreateCourse() {
     });
   };
 
+  function ErrorsDisplay({ errors }) {
+    let errorsDisplay = null;
+
+    if (errors.length) {
+      errorsDisplay = (
+        <div>
+          <h2 className="validation--errors--label">Validation errors</h2>
+          <div className="validation-errors">
+            <ul>
+              {errors.map((error, i) => <li key={i}>{error}</li>)}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    return errorsDisplay;
+  }
+
+
   return (
     <main>
       <div className="wrap">
         <h2>Create Course</h2>
 
-
-        {errors ? (
-          <React.Fragment>
-            <div className="validation--errors">
-              <h3>Validation Errors</h3>
-              <ul>
-                <li>Please provide a value for "Title"</li>
-                <li>Please provide a value for "Description"</li>
-              </ul>
-            </div>
-          </React.Fragment>
-        ) : <React.Fragment>
-
-        </React.Fragment>
-        }
-
-
-        <form>
+        <ErrorsDisplay errors={errors} />
+        <form errors={errors}>
           <div className="main--flex">
             <div>
               <label htmlFor="courseTitle">Course Title</label>
