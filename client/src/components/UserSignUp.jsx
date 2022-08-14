@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -33,7 +33,7 @@ function UserSignUp() {
       firstName,
       lastName,
       emailAddress,
-      password,
+      password
     }
 
     // linking to api and creating course via signUp action
@@ -51,9 +51,33 @@ function UserSignUp() {
 
         console.log("signed up successfully!");
         navigate("/");
+        // sign in user?
       }
     });
   };
+
+
+
+  /* Displaying Errors */
+
+  function ErrorsDisplay({ errors }) {
+    let errorsDisplay = null;
+
+    if (errors.length) {
+      errorsDisplay = (
+        <div>
+          <h2 className="validation--errors--label">Validation errors</h2>
+          <div className="validation-errors">
+            <ul>
+              {errors.map((error, i) => <li key={i}>{error}</li>)}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    return errorsDisplay;
+  }
 
   return (
 
@@ -62,6 +86,7 @@ function UserSignUp() {
       <div className="form--centered">
         <h2>Sign Up</h2>
 
+        <ErrorsDisplay errors={errors} />
         <form>
           <label htmlFor="firstName">First Name</label>
           <input id="firstName" name="firstName" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
