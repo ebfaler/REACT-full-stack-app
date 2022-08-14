@@ -26,18 +26,7 @@ function UpdateCourse() {
   //useParams to get the id of the course from the url
   const { id } = useParams();
 
-
-  //state for course details
-  // const [course, setCourseDetails] = useState([]);
-
-
-  //testing onClick action
-  // const sayHello = (e) => {
-  //   e.preventDefault();
-  //   console.log("say hello");
-  // };
-
-  ///****Function to handle form submission and update a course ****///
+  /****Function to update a course ****/
 
   const handleSubmit = async (e) => {
     //preventing default behaviour of the form which would reload the page
