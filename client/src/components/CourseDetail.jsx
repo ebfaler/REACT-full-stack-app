@@ -16,12 +16,16 @@ function CourseDetail() {
 
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
-  useEffect(() => {
-    const displayDetails = async () => {
-      await actions.courseDetail(id);
-    };
-    displayDetails();
-  }, []);
+  useEffect(
+
+    () => {
+      const displayDetails = async () => {
+        await actions.courseDetail(id);
+      };
+      displayDetails();
+    },
+
+    []);
 
   // TO DO: create a function in the CourseDetail component that will delete
   // the course and redirects the user back to the home page when the delete button is clicked.

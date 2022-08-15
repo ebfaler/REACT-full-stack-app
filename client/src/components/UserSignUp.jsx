@@ -99,15 +99,19 @@ function UserSignUp() {
           <button className="button" type="submit" onClick={handleSubmit}>
             Sign Up
           </button>
-          <button
-            className="button button-secondary"
-          >
-            Cancel
-          </button>
+
+          <Link to="/">
+            <button
+              className="button button-secondary"
+
+            >
+              Cancel
+            </button>
+          </Link>
         </form>
         <p>
           Already have a user account? Click here to{" "}
-          <Link to="sign-in.html">sign in</Link>!
+          <Link to="/signin">sign in</Link>!
         </p>
       </div>
     </main>
