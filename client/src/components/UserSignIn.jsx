@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 //importing context
 import Context from "./Context/AppContext";
 
@@ -17,12 +17,16 @@ function UserSignIn() {
   //setting state for user inputs
   const [emailAddress, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [location, setLocation] = useState("")
 
   // setting state for the error we might get back when we try to authenticate
   const [errMsg, setErrMsg] = useState("");
 
   //allows us to change location
   let navigate = useNavigate();
+  //keeps track of url history
+  const location = useLocation();
+
 
   //setting focus on first input when componenet loads
   useEffect(() => {
@@ -45,8 +49,18 @@ function UserSignIn() {
     actions.signIn(emailAddress, password).then((response) => {
       if (response !== null) {
         console.log("sign in successful!");
+        console.log(location);
         navigate("/");
-      } else {
+      }
+
+      //if user logs in, takes user to wherever they could not access first 
+      //check if location has a state, then check if theres a from.If all of that is true naviagate to location.state.from
+
+      if (location.state?.from) {
+        navigate(location.state?.from);
+      }
+
+      else {
         console.log("sign in unsuccessful!");
       }
     });
