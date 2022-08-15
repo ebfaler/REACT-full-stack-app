@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
     class User extends Model { }
     User.init({
 
-  
+
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -50,7 +50,7 @@ module.exports = (sequelize) => {
             allowNull: false,
             unique: {
                 msg: 'The email you entered already exists'
-            }, 
+            },
             validate: {
                 notEmpty: {
                     // custom error message
@@ -72,18 +72,21 @@ module.exports = (sequelize) => {
             allowNull: false,
 
             set(val) {
-                      const hashedPassword = bcrypt.hashSync(val,10);
-                      this.setDataValue('password', hashedPassword)
-                },
-        
+
+                if (val !== undefined && val !== '' && val !== null) {
+                    const hashedPassword = bcrypt.hashSync(val, 10);
+                    this.setDataValue('password', hashedPassword)
+                }
+            },
+
             validate: {
                 notEmpty: {
                     // custom error message
-                    msg: 'Please provide a value for password',
+                    msg: 'Please provide a value for Password',
                 },
                 notNull: {
                     // custom error message
-                    msg: 'password is required',
+                    msg: 'Password is required',
                 }
 
             },
@@ -91,18 +94,20 @@ module.exports = (sequelize) => {
 
         },
     },
-    
-    { sequelize });
+
+        { sequelize });
 
     User.associate = (models) => {
         // one to many association.
 
-        User.hasMany(models.Course, { foreignKey: {
-      
-            fieldName:'userId',
-            allowNull: false
-        }});
-     };
+        User.hasMany(models.Course, {
+            foreignKey: {
+
+                fieldName: 'userId',
+                allowNull: false
+            }
+        });
+    };
 
     return User;
 };
