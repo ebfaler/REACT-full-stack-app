@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Context from "./Context/AppContext";
+import Forbidden from "./Errors/Forbidden";
 
 
 function UpdateCourse() {
@@ -11,9 +12,10 @@ function UpdateCourse() {
   // const location = useLocation();
 
   //importing variables from Context
-  const { actions } = useContext(Context);
+  const { actions, course } = useContext(Context);
   const { authenticatedUser } = useContext(Context);
-
+  console.log("authenticatedUser is " + authenticatedUser.id);
+  console.log("course is " + course.userId);
 
   //setting state for the form 
 
@@ -41,10 +43,13 @@ function UpdateCourse() {
             navigate('/notfound');
             return;
           } //if there is a response course will be returned
+
+          //here I am setting the state for the content
           setTitle(response.title);
           setDescription(response.description);
           setEstimatedTime(response.estimatedTime || "");
           setMaterialsNeeded(response.materialsNeeded || "");
+          console.log("response is " + response.title);
 
         })
         .catch((e) => {
@@ -69,6 +74,7 @@ function UpdateCourse() {
       materialsNeeded: materialsNeededEl.current.value,
       userId: authenticatedUser.id
     }
+
 
     // linking to api and creating course via updateCourse action
     // takes a paramater id which is the id of the course
@@ -104,10 +110,6 @@ function UpdateCourse() {
 
   };
 
-  //need to work on forbidden route
-  // if (e.status && e.status === 403) {
-  //   navigate("/forbidden");
-  // }
 
 
   /* Displaying Errors */
@@ -132,60 +134,64 @@ function UpdateCourse() {
   }
 
   return (
-    <main>
-      <div className="wrap">
-        <h2>Update Course</h2>
-        <ErrorsDisplay errors={errors} />
-        <form>
-          <div className="main--flex">
-            <div>
-              <label htmlFor="courseTitle">Course Title</label>
-              <input
-                id="courseTitle"
-                name="courseTitle"
-                type="text"
-                ref={titleEl}
-                defaultValue={title}
-              />
 
-              <p> By {""} {authenticatedUser.firstName} {""} {authenticatedUser.lastName} </p>
+    (course.userId == authenticatedUser.id) ?
+
+      <main>
+        <div className="wrap">
+          <h2>Update Course</h2>
+          <ErrorsDisplay errors={errors} />
+          <form>
+            <div className="main--flex">
+              <div>
+                <label htmlFor="courseTitle">Course Title</label>
+                <input
+                  id="courseTitle"
+                  name="courseTitle"
+                  type="text"
+                  ref={titleEl}
+                  defaultValue={title}
+                />
+
+                <p> By {""} {authenticatedUser.firstName} {""} {authenticatedUser.lastName} </p>
 
 
-              <label htmlFor="courseDescription">Course Description</label>
-              <textarea id="courseDescription" name="courseDescription" ref={descriptionEl} defaultValue={description}
-              >
-              </textarea>
+                <label htmlFor="courseDescription">Course Description</label>
+                <textarea id="courseDescription" name="courseDescription" ref={descriptionEl} defaultValue={description}
+                >
+                </textarea>
+              </div>
+              <div>
+                <label htmlFor="estimatedTime">Estimated Time</label>
+                <input
+                  id="estimatedTime"
+                  name="estimatedTime"
+                  type="text"
+                  ref={estimatedTimeEl}
+                  defaultValue={estimatedTime}
+                />
+
+                <label htmlFor="materialsNeeded">Materials Needed</label>
+                <textarea id="materialsNeeded" name="materialsNeeded" ref={materialsNeededEl} defaultValue={materialsNeeded}
+                >
+
+                </textarea>
+              </div>
             </div>
-            <div>
-              <label htmlFor="estimatedTime">Estimated Time</label>
-              <input
-                id="estimatedTime"
-                name="estimatedTime"
-                type="text"
-                ref={estimatedTimeEl}
-                defaultValue={estimatedTime}
-              />
-
-              <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded" ref={materialsNeededEl} defaultValue={materialsNeeded}
-              >
-
-              </textarea>
-            </div>
-          </div>
-          <button className="button" type="submit" onClick={handleSubmit}>
-            Update Course
-          </button>
-
-          <Link to='/'>
-            <button
-            >
-              Cancel
+            <button className="button" type="submit" onClick={handleSubmit}>
+              Update Course
             </button>
-          </Link>
-        </form>
-      </div>
-    </main>
+
+            <Link to='/'>
+              <button
+              >
+                Cancel
+              </button>
+            </Link>
+          </form>
+        </div>
+      </main>
+      : <Forbidden />
   );
 }
 
