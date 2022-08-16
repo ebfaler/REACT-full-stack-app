@@ -20,8 +20,8 @@ router.get('/', asyncHandler(async (req, res) => {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: {
             model: User,
-            attributes: ['firstName','lastName', 'emailAddress']
-          }
+            attributes: ['firstName', 'lastName', 'emailAddress']
+        }
     });
     res.status(200).json(courses);
 
@@ -34,18 +34,18 @@ router.get('/', asyncHandler(async (req, res) => {
 //will return the corresponding course including the User associated with that course and 
 //a 200 HTTP status code.
 
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async (req, res, next) => {
 
     // - If the book exists, render the update-book template,
     // - Else:
     //   * Create a new 404 error
     //   * Forward the error to the global error handler
     const courses = await Course.findByPk(req.params.id, {
-        attributes: { exclude: ['createdAt', 'updatedAt']},
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: {
             model: User,
-            attributes: ['firstName','lastName', 'emailAddress']
-          }
+            attributes: ['firstName', 'lastName', 'emailAddress']
+        }
     });
 
     if (courses) {

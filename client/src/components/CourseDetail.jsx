@@ -14,18 +14,29 @@ function CourseDetail() {
   const { id } = useParams();
   const navigate = useNavigate()
 
+
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
+
   useEffect(
 
     () => {
-      const displayDetails = async () => {
-        await actions.courseDetail(id);
-      };
-      displayDetails();
-    },
 
-    []);
+      actions.courseDetail(id)
+        .then((response) => {
+          if (!response) {
+
+            navigate('/notfound');
+          }
+        })
+        .catch((e) => {
+
+          navigate('/error');
+        })
+
+    }
+    //get result of action course id, if theres no result redirect to /notfound
+    , []);
 
   // TO DO: create a function in the CourseDetail component that will delete
   // the course and redirects the user back to the home page when the delete button is clicked.
@@ -86,7 +97,7 @@ function CourseDetail() {
                 </p>
               )}
 
-              <p>High-end furniture projects are great to dream about.</p>
+              <p>{course.description}</p>
             </div>
 
             <div>
