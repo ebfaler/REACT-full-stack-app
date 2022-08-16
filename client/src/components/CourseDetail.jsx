@@ -25,9 +25,8 @@ function CourseDetail() {
       actions.courseDetail(id)
         .then((response) => {
           if (!response) {
-
             navigate('/notfound');
-          }
+          } //if there is a response course will be returned
         })
         .catch((e) => {
 

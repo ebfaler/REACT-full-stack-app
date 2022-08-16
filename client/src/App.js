@@ -44,9 +44,4 @@ function App() {
 
 export default App;
 
-// // testing that local host can retreiev courses from host 5000
-// fetch("http://localhost:5000/api/courses")
-// .then(res => res.json())
-// .then((resData) => {
-// console.log(resData);
-// })
+

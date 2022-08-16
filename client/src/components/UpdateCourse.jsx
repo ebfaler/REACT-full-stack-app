@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import Context from "./Context/AppContext";
 
 
@@ -8,9 +8,10 @@ function UpdateCourse() {
   //navigation
 
   const navigate = useNavigate();
+  // const location = useLocation();
 
   //importing variables from Context
-  const { actions, course } = useContext(Context);
+  const { actions } = useContext(Context);
   const { authenticatedUser } = useContext(Context);
 
 
@@ -22,23 +23,50 @@ function UpdateCourse() {
   const [materialsNeeded, setMaterialsNeeded] = useState('');
   const [errors, setErrors] = useState({});
 
+  const descriptionEl = useRef(null);
+  const titleEl = useRef(null);
+  const materialsNeededEl = useRef(null);
+  const estimatedTimeEl = useRef(null);
 
   //useParams to get the id of the course from the url
   const { id } = useParams();
 
-  /****Function to update a course ****/
+
+  // After the component renders, makes call to api to retrieve course details so it can be edited
+  useEffect(
+    () => {
+      actions.courseDetail(id)
+        .then((response) => {
+          if (!response) {
+            navigate('/notfound');
+            return;
+          } //if there is a response course will be returned
+          setTitle(response.title);
+          setDescription(response.description);
+          setEstimatedTime(response.estimatedTime || "");
+          setMaterialsNeeded(response.materialsNeeded || "");
+
+        })
+        .catch((e) => {
+          console.log(e);
+          navigate('/error');
+        })
+    }
+    , []);
+
+  ///****Function to handle form submission and update a course ****///
 
   const handleSubmit = async (e) => {
     //preventing default behaviour of the form which would reload the page
     e.preventDefault();
-
-
+    console.log(descriptionEl.current.value);
+    console.log(titleEl.current.value);
     //these are the variables in api data.json which will be used in the updateCourse method found in context
     const courseBody = {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
+      title: titleEl.current.value,
+      description: descriptionEl.current.value,
+      estimatedTime: estimatedTimeEl.current.value,
+      materialsNeeded: materialsNeededEl.current.value,
       userId: authenticatedUser.id
     }
 
@@ -47,20 +75,33 @@ function UpdateCourse() {
     actions.updateCourse(id, courseBody
 
     ).then((response) => {
-      if (response.errors) {
-        console.log("course update unsuccessful!");
-        setErrors(response.errors)
-        console.log(response.errors);
-        console.log(courseBody);
-        console.log(authenticatedUser);
 
-      } else {
-
-        console.log("course successfully updated!");
-        navigate("/");
+      if (!response) {
+        navigate("/notfound");
+        console.log("page doesnt exist");
       }
+      else {
+
+        if (response.errors) {
+          console.log("course has errors!");
+          setErrors(response.errors)
+
+        }
+
+        else {
+          console.log("course successfully updated!");
+          navigate(`/courses/${id}`);
+        }
+      }
+    }).catch((e) => {
+      navigate('/error');
+      console.log("error getting data");
     });
+
+
   };
+
+
 
   /* Displaying Errors */
 
@@ -96,16 +137,16 @@ function UpdateCourse() {
                 id="courseTitle"
                 name="courseTitle"
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                ref={titleEl}
+                defaultValue={title}
               />
 
               <p> By {""} {authenticatedUser.firstName} {""} {authenticatedUser.lastName} </p>
 
 
               <label htmlFor="courseDescription">Course Description</label>
-              <textarea id="courseDescription" name="courseDescription" value={description}
-                onChange={(e) => setDescription(e.target.value)}>
+              <textarea id="courseDescription" name="courseDescription" ref={descriptionEl} defaultValue={description}
+              >
               </textarea>
             </div>
             <div>
@@ -114,13 +155,13 @@ function UpdateCourse() {
                 id="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                value={estimatedTime}
-                onChange={(e) => setEstimatedTime(e.target.value)}
+                ref={estimatedTimeEl}
+                defaultValue={estimatedTime}
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded" value={materialsNeeded}
-                onChange={(e) => setMaterialsNeeded(e.target.value)}>
+              <textarea id="materialsNeeded" name="materialsNeeded" ref={materialsNeededEl} defaultValue={materialsNeeded}
+              >
 
               </textarea>
             </div>
