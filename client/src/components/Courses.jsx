@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Context from "./Context/AppContext";
 
@@ -8,13 +8,21 @@ function Courses() {
   const { courses } = useContext(Context);
   const { actions } = useContext(Context);
 
+  const navigate = useNavigate()
+
   // The useEffect Hook instructs React to do something after render, it's called when the component first renders
   // and after each subsequent re-render or update.
   useEffect(() => {
-    const displayCourses = async () => {
-      await actions.getCourses();
-    };
-    displayCourses();
+
+    actions.getCourses()
+      .then((response) => {
+        if (!response) {
+          navigate('/notfound');
+        }
+      })
+      .catch((e) => {
+        navigate('/error');
+      })
   }, []);
 
   return (

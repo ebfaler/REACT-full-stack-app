@@ -54,7 +54,7 @@ function UpdateCourse() {
     }
     , []);
 
-  ///****Function to handle form submission and update a course ****///
+  ///****Function to handle form submission ****///
 
   const handleSubmit = async (e) => {
     //preventing default behaviour of the form which would reload the page
@@ -80,6 +80,7 @@ function UpdateCourse() {
         navigate("/notfound");
         console.log("page doesnt exist");
       }
+
       else {
 
         if (response.errors) {
@@ -92,15 +93,21 @@ function UpdateCourse() {
           console.log("course successfully updated!");
           navigate(`/courses/${id}`);
         }
+
       }
     }).catch((e) => {
       navigate('/error');
       console.log("error getting data");
+
     });
 
 
   };
 
+  //need to work on forbidden route
+  // if (e.status && e.status === 403) {
+  //   navigate("/forbidden");
+  // }
 
 
   /* Displaying Errors */

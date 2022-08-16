@@ -52,6 +52,8 @@ function CreateCourse() {
         console.log("course created successfully!");
         navigate("/");
       }
+    }).catch((e) => {
+      navigate('/error');
     });
   };
 

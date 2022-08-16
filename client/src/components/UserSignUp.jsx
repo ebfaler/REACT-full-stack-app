@@ -53,7 +53,11 @@ function UserSignUp() {
         navigate("/");
         // sign in user?
       }
-    });
+    })
+      .catch((e) => {
+
+        navigate('/error');
+      });
   };
 
 

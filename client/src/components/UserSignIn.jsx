@@ -46,24 +46,28 @@ function UserSignIn() {
     e.preventDefault();
 
     // linking to api
-    actions.signIn(emailAddress, password).then((response) => {
-      if (response !== null) {
-        console.log("sign in successful!");
-        console.log(location);
-        navigate("/");
-      }
+    actions.signIn(emailAddress, password)
+      .then((response) => {
+        if (response !== null) {
+          console.log("sign in successful!");
+          console.log(location);
+          navigate("/");
+        }
 
-      //if user logs in, takes user to wherever they could not access first 
-      //check if location has a state, then check if theres a from.If all of that is true naviagate to location.state.from
+        //if user logs in, takes user to wherever they could not access first 
+        //check if location has a state, then check if theres a from.If all of that is true naviagate to location.state.from
 
-      if (location.state?.from) {
-        navigate(location.state?.from);
-      }
+        if (location.state?.from) {
+          navigate(location.state?.from);
+        }
 
-      else {
-        console.log("sign in unsuccessful!");
-      }
-    });
+        else {
+          console.log("sign in unsuccessful!");
+        }
+      })
+      .catch((e) => {
+        navigate('/error');
+      })
   };
 
   return (
