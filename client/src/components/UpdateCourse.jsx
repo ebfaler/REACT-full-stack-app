@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, Navigate } from "react-router-dom";
 import Context from "./Context/AppContext";
 import Forbidden from "./Errors/Forbidden";
 
@@ -191,7 +191,11 @@ function UpdateCourse() {
           </form>
         </div>
       </main>
-      : <Forbidden />
+      :
+      <React.Fragment>
+        <Navigate to="/forbidden" />
+        <Forbidden />
+      </React.Fragment>
   );
 }
 

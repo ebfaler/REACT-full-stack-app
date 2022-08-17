@@ -24,14 +24,13 @@ function CourseDetail() {
 
       actions.courseDetail(id)
         .then((response) => {
-          console.log(response.status)
-          if (!response && response.status === 404) {
+          if (!response) {
             navigate('/notfound');
+            console.log("page not found")
           }
-
-          else if (!response && response.status === 403) {
-            navigate('/forbidden');
-          }
+          //  else if (!response && response.status === 403) {
+          //   navigate('/forbidden');
+          // }
         })
         .catch((e) => {
 
@@ -65,7 +64,7 @@ function CourseDetail() {
       <div className="actions--bar">
         <div className="wrap">
           {/* need to set up so that user's ID matches that of the user who owns the course. */}
-          {authenticatedUser ? (
+          {(course.userId === authenticatedUser.id) ? (
             <React.Fragment>
               <Link className="button" to={`/courses/${id}/update`}>
                 Update Course

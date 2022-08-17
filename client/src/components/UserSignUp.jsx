@@ -48,7 +48,7 @@ function UserSignUp() {
 
 
       } else {
-
+        //after user has signed up, they are automatically signed in
         actions.signIn(emailAddress, password)
           .then(() => {
             navigate('/');

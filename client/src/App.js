@@ -36,7 +36,8 @@ function App() {
         <Route path="/signout" element={<UserSignOut />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/error" element={<UnhandledError />} />
-        <Route path="/notfound" element={<NotFound />} />
+        {/* only match this when no other routes match */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
