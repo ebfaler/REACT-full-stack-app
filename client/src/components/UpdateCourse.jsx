@@ -57,6 +57,7 @@ function UpdateCourse() {
           navigate('/error');
         })
     }
+    // eslint-disable-next-line
     , []);
 
   ///****Function to handle form submission ****///

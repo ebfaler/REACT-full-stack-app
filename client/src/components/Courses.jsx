@@ -23,6 +23,7 @@ function Courses() {
       .catch((e) => {
         navigate('/error');
       })
+    // eslint-disable-next-line
   }, []);
 
   return (

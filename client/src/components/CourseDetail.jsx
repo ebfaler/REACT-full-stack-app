@@ -38,7 +38,7 @@ function CourseDetail() {
         })
 
     }
-
+    // eslint-disable-next-line
     , []);
 
   // TO DO: create a function in the CourseDetail component that will delete
