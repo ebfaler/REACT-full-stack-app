@@ -135,7 +135,7 @@ function UpdateCourse() {
 
   return (
 
-    (course.userId == authenticatedUser.id) ?
+    (course.userId === authenticatedUser.id) ?
 
       <main>
         <div className="wrap">

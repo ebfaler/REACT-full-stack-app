@@ -24,9 +24,14 @@ function CourseDetail() {
 
       actions.courseDetail(id)
         .then((response) => {
-          if (!response) {
+          console.log(response.status)
+          if (!response && response.status === 404) {
             navigate('/notfound');
-          } //if there is a response course will be returned
+          }
+
+          else if (!response && response.status === 403) {
+            navigate('/forbidden');
+          }
         })
         .catch((e) => {
 
@@ -34,7 +39,7 @@ function CourseDetail() {
         })
 
     }
-    //get result of action course id, if theres no result redirect to /notfound
+
     , []);
 
   // TO DO: create a function in the CourseDetail component that will delete
@@ -83,6 +88,8 @@ function CourseDetail() {
       </div>
 
       <div className="wrap">
+
+
         <h2>Course Detail</h2>
 
         <form>
@@ -96,7 +103,7 @@ function CourseDetail() {
                 </p>
               )}
 
-              <p>{course.description}</p>
+              <ReactMarkdown>{course.description}</ReactMarkdown>
             </div>
 
             <div>

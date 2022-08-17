@@ -13,7 +13,7 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
 import UserSignUp from "./components/UserSignUp";
 import Forbidden from "./components/Errors/Forbidden";
-import Error from "./components/Errors/Error";
+import UnhandledError from "./components/Errors/UnhandledError";
 import NotFound from "./components/Errors/NotFound";
 import PrivateRoute from './components/PrivateRoute';
 
@@ -35,7 +35,7 @@ function App() {
         <Route path="/signin" element={<UserSignIn />} />
         <Route path="/signout" element={<UserSignOut />} />
         <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="/error" element={<Error />} />
+        <Route path="/error" element={<UnhandledError />} />
         <Route path="/notfound" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

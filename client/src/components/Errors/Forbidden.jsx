@@ -1,5 +1,11 @@
 import React from "react";
+
+
+
+
 function Forbidden() {
+
+
   return (
     <main>
       <div className="wrap">

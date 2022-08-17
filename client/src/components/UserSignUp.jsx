@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -49,9 +49,10 @@ function UserSignUp() {
 
       } else {
 
-        console.log("signed up successfully!");
-        navigate("/");
-        // sign in user?
+        actions.signIn(emailAddress, password)
+          .then(() => {
+            navigate('/');
+          });
       }
     })
       .catch((e) => {
