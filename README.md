@@ -1,4 +1,4 @@
-# full stack app with react and rest-api
+# Full stack app with React and rest-API
  Unit 10 Final Project Treehouse Full Stack Techdegree
 
 
